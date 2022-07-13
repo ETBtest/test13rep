@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: postgres:9.6.1
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 0932970591
+      POSTGRES_USER: test
+      POSTGRES_DB: test
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresqldata:/var/lib/postgresql/data
+  jira8.17.0:
+    image: atlassian/jira-software:8.17.0
+    ports:
+      - 870:8080
+    volumes:
+      - ./application-data/jira-data8.17.1:/var/atlassian/application-data/jira
+    environment:
+      ATL_JDBC_URL: jdbc:postgresql://db:5432/test
+      ATL_JDBC_USER: test
+      ATL_JDBC_PASSWORD: 0932970591
+      ATL_DB_DRIVER: org.postgresql.Driver
+      ATL_DB_TYPE: postgres72
+    depends_on:
+      - db
+
